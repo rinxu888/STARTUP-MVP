@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kido Course — MVP SPA</title>
+  <style>
+    :root{
+      --navy:#17324d;
+      --brand:#ff8a65;
+      --brand-2:#ffd9cf;
+      --ink:#15202b;
+      --muted:#5b6b7a;
+      --bg:#f7fafc;
+      --card:#ffffff;
+      --stroke:#e5edf5;
+      --ok:#1f9d68;
+      --warn:#b45309;
+      --danger:#b91c1c;
+      --shadow:0 16px 30px rgba(17,24,39,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    .hidden{display:none !important}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    :focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
+
+    .navbar{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+    .navwrap{max-width:1200px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#ffb199);display:grid;place-items:center;color:#fff;font-weight:900;box-shadow:0 8px 20px rgba(255,138,101,.35)}
+    .nav{display:flex;gap:18px;flex-wrap:wrap}
+    .nav a{opacity:.86}
+    .nav a.active,.nav a:hover{opacity:1;text-decoration:underline}
+
+    main{max-width:1200px;margin:26px auto;padding:0 18px}
+    footer{max-width:1200px;margin:28px auto;padding:12px 18px;color:var(--muted)}
+
+    .hero{padding:28px;border:1px solid var(--stroke);background:linear-gradient(180deg,#fff,#fff7f4);border-radius:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}}
+    .hero h1{font-size:42px;line-height:1.08;margin:0 0 10px}
+    .hero p{margin:0;color:var(--muted);font-size:18px;max-width:700px}
+    .hero-card{background:#fff;border:1px solid var(--stroke);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+    .hero-list{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+    .hero-list li{padding:10px 12px;background:#fff7f4;border:1px solid #ffe2d8;border-radius:999px;font-weight:600;color:#87412d}
+
+    .section-title{font-size:28px;margin:26px 0 14px}
+    .controls{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0 22px}
+    @media (max-width:1100px){.controls{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:720px){.controls{grid-template-columns:1fr}}
+    .control,.panel,.card,.stat,.table-wrap,.empty,.banner{background:var(--card);border:1px solid var(--stroke);box-shadow:var(--shadow);border-radius:var(--radius)}
+    .control{padding:10px 12px}
+    .control label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
+    .control input,.control select,.control textarea{width:100%;border:1px solid var(--stroke);border-radius:12px;padding:12px;background:#fff}
+
+    .actions-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{border:none;border-radius:999px;padding:12px 18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-secondary{background:#eef4f8;color:var(--ink)}
+    .btn-danger{background:#fee2e2;color:#991b1b}
+    .btn-ghost{background:#fff;border:1px solid var(--stroke)}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:650px){.grid{grid-template-columns:1fr}}
+    .card{overflow:hidden;display:flex;flex-direction:column}
+    .thumb{height:180px;background:linear-gradient(135deg,#ffd8cc,#fff0eb);display:grid;place-items:center;font-size:44px}
+    .pad{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .title{font-size:20px;font-weight:900;margin:0}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+    .badge{display:inline-flex;padding:4px 10px;border-radius:999px;background:#fff3ef;border:1px solid #ffd8cc;color:#9a4c36;font-size:12px;font-weight:800}
+    .price{font-weight:900;color:var(--navy)}
+    .desc{color:#425466;margin:0}
+    .grow{flex:1}
+
+    .panel{padding:20px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    @media (max-width:900px){.two-col{grid-template-columns:1fr}}
+    .detail-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+    .detail-title{font-size:34px;margin:0}
+
+    .form{display:grid;gap:14px}
+    .field{display:grid;gap:6px}
+    .field label{font-weight:700}
+    .error{color:var(--danger);font-size:13px;min-height:16px}
+    .alert{padding:12px 14px;border-radius:14px;border:1px solid #fecaca;background:#fef2f2;color:#7f1d1d}
+
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:650px){.stats{grid-template-columns:1fr}}
+    .stat{padding:18px}
+    .stat .k{font-size:13px;color:var(--muted);font-weight:700}
+    .stat .v{font-size:30px;font-weight:900;margin-top:6px}
+
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--stroke);vertical-align:top}
+    th{font-size:13px;color:var(--muted)}
+    .table-wrap{overflow:auto}
+    .empty{padding:28px;text-align:center;color:var(--muted)}
+
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+    @media (max-width:900px){.about-grid{grid-template-columns:1fr}}
+    .about-art{min-height:280px;border-radius:24px;background:radial-gradient(circle at 30% 30%, #fff, #ffe9e1 45%, #ffd1c1 100%);display:grid;place-items:center;font-size:100px}
+
+    .success{max-width:760px;margin:0 auto;text-align:center}
+    .success-icon{width:110px;height:110px;margin:0 auto 16px;border-radius:999px;background:#d1fae5;color:var(--ok);display:grid;place-items:center;font-size:52px;font-weight:900}
+    .banner{padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+    .tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ecfdf5;color:#065f46;font-weight:800;font-size:12px}
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="navwrap">
+      <div class="brand"><div class="logo">K</div><span>Kido Course</span></div>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#/" id="nav-home" class="active">Home</a>
+        <a href="#/about" id="nav-about">About us</a>
+        <a href="#/client" id="nav-client">Client dashboard</a>
+        <a href="#/admin" id="nav-admin">Admin panel</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="view-home">
+      <div class="hero">
+        <div>
+          <h1>Find and book the right course for your child</h1>
+          <p>Kido Course helps parents discover trusted kids courses by age, category, format, city, and price — then book a trial lesson in a few clicks.</p>
+          <div class="actions-row" style="margin-top:16px">
+            <a class="btn btn-primary" href="#courses">Explore courses</a>
+            <a class="btn btn-secondary" href="#/about">How it works</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <strong>Core MVP flow</strong>
+          <ul class="hero-list">
+            <li>1. Search with filters</li>
+            <li>2. Open a course page</li>
+            <li>3. Book a trial lesson</li>
+            <li>4. Parent sees booking in dashboard</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="section-title" id="courses">Course search</h2>
+      <div class="controls" role="region" aria-label="Course search filters">
+        <div class="control">
+          <label for="search">Search</label>
+          <input id="search" type="search" placeholder="Coding, piano, robotics..." />
+        </div>
+        <div class="control">
+          <label for="filter-age">Age</label>
+          <select id="filter-age">
+            <option value="all">All ages</option>
+            <option value="3-5">3–5</option>
+            <option value="6-8">6–8</option>
+            <option value="9-12">9–12</option>
+            <option value="13-16">13–16</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="filter-category">Category</label>
+          <select id="filter-category">
+            <option value="all">All categories</option>
+            <option value="Coding">Coding</option>
+            <option value="Art">Art</option>
+            <option value="Sports">Sports</option>
+            <option value="Language">Language</option>
+            <option value="Music">Music</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="filter-city">City</label>
+          <select id="filter-city">
+            <option value="all">All cities</option>
+            <option value="Almaty">Almaty</option>
+            <option value="Astana">Astana</option>
+            <option value="Shymkent">Shymkent</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="filter-format">Format</label>
+          <select id="filter-format">
+            <option value="all">Online + Offline</option>
+            <option value="Offline">Offline</option>
+            <option value="Online">Online</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="popular">Popularity</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+            <option value="rating-desc">Rating</option>
+            <option value="name-asc">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <section id="course-grid" class="grid" aria-live="polite"></section>
+    </section>
+
+    <section id="view-course" class="hidden">
+      <div class="two-col">
+        <section class="panel">
+          <div class="detail-head">
+            <div>
+              <p class="badge" id="course-category-badge"></p>
+              <h1 class="detail-title" id="course-title"></h1>
+              <div class="meta" id="course-meta"></div>
+            </div>
+            <div class="price" id="course-price"></div>
+          </div>
+          <p class="desc" id="course-desc" style="margin-top:18px"></p>
+          <h3>What parents get</h3>
+          <ul id="course-features"></ul>
+          <div class="actions-row" style="margin-top:18px">
+            <a href="#/book" id="book-link" class="btn btn-primary">Book trial lesson</a>
+            <a href="#/" class="btn btn-secondary">Back to courses</a>
+          </div>
+        </section>
+        <aside class="panel">
+          <h3>Quick info</h3>
+          <div id="course-quick" class="form"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="view-book" class="hidden">
+      <div class="panel" style="max-width:800px;margin:0 auto">
+        <h1 style="margin-top:0">Book a trial lesson</h1>
+        <p class="muted">Parent fills the form, the platform stores the booking, and the request appears in both dashboards.</p>
+        <div id="booking-summary" class="banner"></div>
+        <form id="booking-form" class="form" novalidate>
+          <div id="form-alert" class="alert hidden">Please fill all required fields correctly.</div>
+          <div class="two-col">
+            <div class="field">
+              <label for="parentName">Parent name</label>
+              <input id="parentName" />
+              <div class="error" id="err-parentName"></div>
+            </div>
+            <div class="field">
+              <label for="childName">Child name</label>
+              <input id="childName" />
+              <div class="error" id="err-childName"></div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="childAge">Child age</label>
+              <select id="childAge">
+                <option value="">Choose age</option>
+                <option>3–5</option>
+                <option>6–8</option>
+                <option>9–12</option>
+                <option>13–16</option>
+              </select>
+              <div class="error" id="err-childAge"></div>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" placeholder="+7 7XX XXX XX XX" />
+              <div class="error" id="err-phone"></div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" placeholder="parent@email.com" />
+              <div class="error" id="err-email"></div>
+            </div>
+            <div class="field">
+              <label for="trialDate">Preferred trial date</label>
+              <input id="trialDate" type="date" />
+              <div class="error" id="err-trialDate"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="notes">Comment</label>
+            <textarea id="notes" placeholder="Any details about the child or preferences..."></textarea>
+            <div class="error" id="err-notes"></div>
+          </div>
+          <div class="actions-row">
+            <button class="btn btn-primary" type="submit">Submit booking</button>
+            <a href="#/" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-success" class="hidden">
+      <div class="panel success">
+        <div class="success-icon">✓</div>
+        <h1>Booking submitted</h1>
+        <p id="success-text" class="muted"></p>
+        <div class="actions-row" style="justify-content:center;margin-top:20px">
+          <a href="#/client" class="btn btn-primary">Open client dashboard</a>
+          <a href="#/" class="btn btn-secondary">Back to home</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-client" class="hidden">
+      <div class="banner">
+        <div>
+          <strong>Client dashboard</strong>
+          <div class="muted">Parent can see all submitted bookings.</div>
+        </div>
+        <a class="btn btn-primary" href="#/">Book another course</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">Total bookings</div><div class="v" id="client-total">0</div></div>
+        <div class="stat"><div class="k">Pending</div><div class="v" id="client-pending">0</div></div>
+        <div class="stat"><div class="k">Latest course</div><div class="v" id="client-latest">—</div></div>
+        <div class="stat"><div class="k">Contact status</div><div class="v">Demo mode</div></div>
+      </div>
+      <h2 class="section-title">My trial requests</h2>
+      <div class="table-wrap panel">
+        <table>
+          <thead>
+            <tr><th>Course</th><th>Parent</th><th>Child</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody id="client-bookings"></tbody>
+        </table>
+      </div>
+      <div id="client-empty" class="empty hidden">No bookings yet.</div>
+    </section>
+
+    <section id="view-admin" class="hidden">
+      <div class="banner">
+        <div>
+          <strong>Admin panel</strong>
+          <div class="muted">Simple MVP admin: see courses, add a demo course, manage requests.</div>
+        </div>
+        <button id="seed-data" class="btn btn-secondary" type="button">Reset demo data</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">Courses</div><div class="v" id="admin-course-count">0</div></div>
+        <div class="stat"><div class="k">Bookings</div><div class="v" id="admin-booking-count">0</div></div>
+        <div class="stat"><div class="k">Cities</div><div class="v" id="admin-city-count">0</div></div>
+        <div class="stat"><div class="k">Top category</div><div class="v" id="admin-top-category">—</div></div>
+      </div>
+
+      <div class="two-col" style="margin-top:18px">
+        <section class="panel">
+          <h2 style="margin-top:0">Add new course</h2>
+          <form id="admin-course-form" class="form">
+            <div class="two-col">
+              <div class="field"><label for="newTitle">Course title</label><input id="newTitle" /></div>
+              <div class="field"><label for="newCategory">Category</label><select id="newCategory"><option>Coding</option><option>Art</option><option>Sports</option><option>Language</option><option>Music</option></select></div>
+            </div>
+            <div class="two-col">
+              <div class="field"><label for="newAge">Age group</label><select id="newAge"><option>3–5</option><option>6–8</option><option>9–12</option><option>13–16</option></select></div>
+              <div class="field"><label for="newCity">City</label><select id="newCity"><option>Almaty</option><option>Astana</option><option>Shymkent</option></select></div>
+            </div>
+            <div class="two-col">
+              <div class="field"><label for="newFormat">Format</label><select id="newFormat"><option>Offline</option><option>Online</option></select></div>
+              <div class="field"><label for="newPrice">Price (KZT/month)</label><input id="newPrice" type="number" min="0" /></div>
+            </div>
+            <div class="field"><label for="newDesc">Description</label><textarea id="newDesc"></textarea></div>
+            <button class="btn btn-primary" type="submit">Add course</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2 style="margin-top:0">Latest bookings</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Course</th><th>Parent</th><th>Phone</th><th>Preferred date</th></tr></thead>
+              <tbody id="admin-bookings"></tbody>
+            </table>
+          </div>
+          <div id="admin-bookings-empty" class="empty hidden">No booking requests yet.</div>
+        </section>
+      </div>
+
+      <h2 class="section-title">Course list</h2>
+      <div class="table-wrap panel">
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Age</th><th>City</th><th>Format</th><th>Price</th></tr></thead>
+          <tbody id="admin-courses"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-about" class="hidden">
+      <div class="panel about-grid">
+        <div>
+          <h1 style="font-size:40px;margin-top:0">About Kido Course</h1>
+          <p class="muted" style="font-size:18px;line-height:1.7">Kido Course is a marketplace-style startup concept for parents who want one place to compare kids courses, filter by important criteria, and quickly book a trial lesson. This MVP demonstrates the core journey: search, choose, and submit a booking request.</p>
+          <div class="actions-row" style="margin-top:18px">
+            <a href="#/" class="btn btn-primary">Back to home</a>
+            <a href="#/client" class="btn btn-secondary">See client side</a>
+          </div>
+        </div>
+        <div class="about-art">🎨🎵💻</div>
+      </div>
+    </section>
+
+    <section id="view-404" class="hidden">
+      <div class="panel success">
+        <div class="success-icon" style="background:#ffedd5;color:var(--warn)">!</div>
+        <h1>404 — Page not found</h1>
+        <p class="muted">The page does not exist in this prototype.</p>
+        <div class="actions-row" style="justify-content:center;margin-top:18px">
+          <a href="#/" class="btn btn-primary">Back to home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Kido Course — single-file MVP prototype</footer>
+
+  <script>
+    const COURSES_KEY = 'kido_courses_v1';
+    const BOOKINGS_KEY = 'kido_bookings_v1';
+    const $ = (s)=>document.querySelector(s);
+    const $$ = (s)=>document.querySelectorAll(s);
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const seedCourses = [
+      {id:'c1',title:'Junior Coding Lab',category:'Coding',age:'6–8',city:'Almaty',format:'Offline',price:40000,rating:4.9,popularity:96,emoji:'💻',desc:'Interactive coding classes with games, logic exercises, and beginner-friendly programming tasks.',features:['Small groups','Hands-on tasks','Trial lesson available']},
+      {id:'c2',title:'Creative Art Studio',category:'Art',age:'6–8',city:'Almaty',format:'Offline',price:25000,rating:4.7,popularity:84,emoji:'🎨',desc:'Drawing, painting, and crafts that help children build creativity and confidence.',features:['All materials included','Portfolio work','Friendly mentor']},
+      {id:'c3',title:'Kids Football Start',category:'Sports',age:'9–12',city:'Astana',format:'Offline',price:30000,rating:4.8,popularity:89,emoji:'⚽',desc:'Beginner football training focused on teamwork, endurance, and discipline.',features:['Certified coach','Group training','Weekend sessions']},
+      {id:'c4',title:'English Fun Club',category:'Language',age:'6–8',city:'Shymkent',format:'Online',price:22000,rating:4.6,popularity:80,emoji:'📚',desc:'Speaking-based English lessons with songs, stories, and vocabulary games.',features:['Online access','Weekly homework','Parent feedback']},
+      {id:'c5',title:'Piano Discovery',category:'Music',age:'9–12',city:'Almaty',format:'Offline',price:35000,rating:4.8,popularity:78,emoji:'🎹',desc:'Introductory piano course for children who want to learn rhythm and melody basics.',features:['Individual attention','Performance day','Instrument practice']},
+      {id:'c6',title:'Robotics Kids Hub',category:'Coding',age:'9–12',city:'Astana',format:'Offline',price:45000,rating:5.0,popularity:98,emoji:'🤖',desc:'Robotics and engineering basics with problem-solving challenges and mini projects.',features:['Project-based learning','Robot kits','Showcase event']}
+    ];
+
+    function getCourses(){
+      const data = JSON.parse(localStorage.getItem(COURSES_KEY) || 'null');
+      if(data && Array.isArray(data) && data.length) return data;
+      localStorage.setItem(COURSES_KEY, JSON.stringify(seedCourses));
+      return [...seedCourses];
+    }
+    function setCourses(data){ localStorage.setItem(COURSES_KEY, JSON.stringify(data)); }
+    function getBookings(){ return JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '[]'); }
+    function setBookings(data){ localStorage.setItem(BOOKINGS_KEY, JSON.stringify(data)); }
+    function resetDemoData(){ localStorage.setItem(COURSES_KEY, JSON.stringify(seedCourses)); localStorage.setItem(BOOKINGS_KEY, JSON.stringify([])); }
+
+    function money(n){ return new Intl.NumberFormat('en-US').format(n) + ' KZT'; }
+    function qs(){ return new URLSearchParams((location.hash.split('?')[1]) || ''); }
+    function route(){
+      const hash = location.hash || '#/';
+      const [path] = hash.split('?');
+      showOnly(path);
+      if(path === '#/' || path === '#'){ renderHome(); setActive('nav-home'); }
+      else if(path === '#/course'){ renderCourse(); clearActive(); }
+      else if(path === '#/book'){ renderBooking(); clearActive(); }
+      else if(path === '#/success'){ renderSuccess(); clearActive(); }
+      else if(path === '#/client'){ renderClient(); setActive('nav-client'); }
+      else if(path === '#/admin'){ renderAdmin(); setActive('nav-admin'); }
+      else if(path === '#/about'){ setActive('nav-about'); }
+      else { clearActive(); show('view-404'); }
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+    function showOnly(path){
+      const map = {
+        '#/':'view-home','#':'view-home','#/course':'view-course','#/book':'view-book','#/success':'view-success','#/client':'view-client','#/admin':'view-admin','#/about':'view-about'
+      };
+      const id = map[path] || 'view-404';
+      $$('main > section').forEach(s=>s.classList.add('hidden'));
+      show(id);
+    }
+    function show(id){ document.getElementById(id).classList.remove('hidden'); }
+    function clearActive(){ $$('.nav a').forEach(a=>a.classList.remove('active')); }
+    function setActive(id){ clearActive(); document.getElementById(id)?.classList.add('active'); }
+
+    function renderHome(){
+      const courses = [...getCourses()];
+      const q = ($('#search').value || '').trim().toLowerCase();
+      const age = $('#filter-age').value;
+      const cat = $('#filter-category').value;
+      const city = $('#filter-city').value;
+      const format = $('#filter-format').value;
+      const sort = $('#sort').value;
+      let filtered = courses.filter(c => {
+        const matchQ = !q || [c.title,c.category,c.city,c.desc].join(' ').toLowerCase().includes(q);
+        const matchAge = age === 'all' || c.age === age.replace('-', '–');
+        const matchCat = cat === 'all' || c.category === cat;
+        const matchCity = city === 'all' || c.city === city;
+        const matchFormat = format === 'all' || c.format === format;
+        return matchQ && matchAge && matchCat && matchCity && matchFormat;
+      });
+      filtered.sort((a,b)=>{
+        switch(sort){
+          case 'price-asc': return a.price - b.price;
+          case 'price-desc': return b.price - a.price;
+          case 'rating-desc': return b.rating - a.rating;
+          case 'name-asc': return a.title.localeCompare(b.title);
+          default: return b.popularity - a.popularity;
+        }
+      });
+      const grid = $('#course-grid');
+      grid.innerHTML = '';
+      if(!filtered.length){ grid.innerHTML = '<div class="empty">No courses found for these filters.</div>'; return; }
+      filtered.forEach(c => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="thumb">${c.emoji || '⭐'}</div>
+          <div class="pad">
+            <div class="meta"><span class="badge">${c.category}</span><span>Age ${c.age}</span><span>${c.format}</span></div>
+            <h3 class="title">${c.title}</h3>
+            <p class="desc">${c.desc}</p>
+            <div class="meta"><span>📍 ${c.city}</span><span>⭐ ${c.rating}</span><span>🔥 ${c.popularity}</span></div>
+            <div class="actions-row grow" style="align-items:flex-end;justify-content:space-between;margin-top:6px">
+              <div class="price">${money(c.price)}</div>
+              <a class="btn btn-primary" href="#/course?id=${c.id}">View course</a>
+            </div>
+          </div>`;
+        grid.appendChild(el);
+      });
+    }
+
+    function courseById(id){ return getCourses().find(c => c.id === id); }
+
+    function renderCourse(){
+      const id = qs().get('id');
+      const c = courseById(id) || getCourses()[0];
+      if(!c){ location.hash = '#/404'; return; }
+      $('#course-category-badge').textContent = c.category;
+      $('#course-title').textContent = c.title;
+      $('#course-meta').innerHTML = `<span>Age ${c.age}</span><span>📍 ${c.city}</span><span>${c.format}</span><span>⭐ ${c.rating}</span>`;
+      $('#course-price').textContent = money(c.price) + ' / month';
+      $('#course-desc').textContent = c.desc;
+      $('#course-features').innerHTML = (c.features || []).map(f => `<li>${f}</li>`).join('');
+      $('#book-link').href = `#/book?id=${c.id}`;
+      $('#course-quick').innerHTML = `
+        <div class="control"><label>Course category</label><input value="${c.category}" disabled></div>
+        <div class="control"><label>Age group</label><input value="${c.age}" disabled></div>
+        <div class="control"><label>City</label><input value="${c.city}" disabled></div>
+        <div class="control"><label>Format</label><input value="${c.format}" disabled></div>
+        <div class="control"><label>Monthly price</label><input value="${money(c.price)}" disabled></div>
+      `;
+    }
+
+    function setErr(id,msg){ const box = document.getElementById('err-'+id); if(box) box.textContent = msg || ''; }
+    function validEmail(v){ const s=(v||'').trim(); return s.includes('@') && s.lastIndexOf('.') > s.indexOf('@') + 1; }
+
+    function renderBooking(){
+      ['parentName','childName','childAge','phone','email','trialDate','notes'].forEach(id => { setErr(id,''); });
+      $('#form-alert').classList.add('hidden');
+      const id = qs().get('id');
+      const c = courseById(id) || getCourses()[0];
+      if(!c){ location.hash = '#/404'; return; }
+      $('#booking-summary').innerHTML = `<div><strong>${c.title}</strong><div class="muted">${c.category} · Age ${c.age} · ${c.city}</div></div><span class="tag">${money(c.price)}</span>`;
+      const form = $('#booking-form');
+      form.onsubmit = (e)=>{
+        e.preventDefault();
+        let ok = true;
+        const parentName = $('#parentName').value.trim();
+        const childName = $('#childName').value.trim();
+        const childAge = $('#childAge').value.trim();
+        const phone = $('#phone').value.trim();
+        const email = $('#email').value.trim();
+        const trialDate = $('#trialDate').value;
+        const notes = $('#notes').value.trim();
+        if(!parentName){ setErr('parentName','Required'); ok=false; }
+        if(!childName){ setErr('childName','Required'); ok=false; }
+        if(!childAge){ setErr('childAge','Required'); ok=false; }
+        if(phone.replace(/\D/g,'').length < 9){ setErr('phone','Enter a valid phone'); ok=false; }
+        if(!validEmail(email)){ setErr('email','Enter a valid email'); ok=false; }
+        if(!trialDate){ setErr('trialDate','Choose a date'); ok=false; }
+        if(!notes){ setErr('notes','Add a short comment'); ok=false; }
+        $('#form-alert').classList.toggle('hidden', ok);
+        if(!ok) return;
+        const bookings = getBookings();
+        bookings.unshift({
+          id: 'b' + Date.now(),
+          courseId: c.id,
+          courseTitle: c.title,
+          parentName, childName, childAge, phone, email, trialDate, notes,
+          status:'Pending', createdAt: new Date().toISOString().slice(0,10)
+        });
+        setBookings(bookings);
+        location.hash = '#/success?course=' + encodeURIComponent(c.title) + '&parent=' + encodeURIComponent(parentName);
+      };
+    }
+
+    function renderSuccess(){
+      const params = qs();
+      const course = params.get('course') || 'course';
+      const parent = params.get('parent') || 'Parent';
+      $('#success-text').textContent = `${parent}, your request for “${course}” has been submitted successfully. In this MVP, the booking is now visible in both the client dashboard and the admin panel.`;
+    }
+
+    function renderClient(){
+      const bookings = getBookings();
+      $('#client-total').textContent = bookings.length;
+      $('#client-pending').textContent = bookings.filter(b=>b.status==='Pending').length;
+      $('#client-latest').textContent = bookings[0]?.courseTitle || '—';
+      const body = $('#client-bookings');
+      body.innerHTML = '';
+      $('#client-empty').classList.toggle('hidden', bookings.length > 0);
+      if(!bookings.length) return;
+      bookings.forEach(b => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${b.courseTitle}</td><td>${b.parentName}</td><td>${b.childName} (${b.childAge})</td><td>${b.trialDate}</td><td><span class="tag">${b.status}</span></td>`;
+        body.appendChild(tr);
+      });
+    }
+
+    function renderAdmin(){
+      const courses = getCourses();
+      const bookings = getBookings();
+      $('#admin-course-count').textContent = courses.length;
+      $('#admin-booking-count').textContent = bookings.length;
+      $('#admin-city-count').textContent = new Set(courses.map(c=>c.city)).size;
+      const topCategory = Object.entries(courses.reduce((acc,c)=>{acc[c.category]=(acc[c.category]||0)+1; return acc;},{})).sort((a,b)=>b[1]-a[1])[0]?.[0] || '—';
+      $('#admin-top-category').textContent = topCategory;
+
+      const courseBody = $('#admin-courses'); courseBody.innerHTML='';
+      courses.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${c.title}</td><td>${c.category}</td><td>${c.age}</td><td>${c.city}</td><td>${c.format}</td><td>${money(c.price)}</td>`;
+        courseBody.appendChild(tr);
+      });
+
+      const bookingBody = $('#admin-bookings'); bookingBody.innerHTML='';
+      $('#admin-bookings-empty').classList.toggle('hidden', bookings.length > 0);
+      bookings.slice(0,8).forEach(b => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${b.courseTitle}</td><td>${b.parentName}</td><td>${b.phone}</td><td>${b.trialDate}</td>`;
+        bookingBody.appendChild(tr);
+      });
+    }
+
+    $('#admin-course-form')?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const title = $('#newTitle').value.trim();
+      const category = $('#newCategory').value;
+      const age = $('#newAge').value;
+      const city = $('#newCity').value;
+      const format = $('#newFormat').value;
+      const price = Number($('#newPrice').value || 0);
+      const desc = $('#newDesc').value.trim();
+      if(!title || !price || !desc){ alert('Fill course title, price, and description.'); return; }
+      const courses = getCourses();
+      const emojiMap = {Coding:'💻',Art:'🎨',Sports:'⚽',Language:'📚',Music:'🎹'};
+      courses.unshift({
+        id:'c' + Date.now(), title, category, age, city, format, price,
+        rating:4.7, popularity:70, emoji:emojiMap[category] || '⭐', desc,
+        features:['Added from admin panel','Visible on homepage','Demo course']
+      });
+      setCourses(courses);
+      e.target.reset();
+      renderAdmin();
+      if(location.hash === '#/') renderHome();
+    });
+
+    ['search','filter-age','filter-category','filter-city','filter-format','sort'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', renderHome);
+      document.getElementById(id)?.addEventListener('change', renderHome);
+    });
+    document.getElementById('seed-data')?.addEventListener('click', ()=>{ resetDemoData(); renderAdmin(); if(location.hash === '#/') renderHome(); });
+
+    window.addEventListener('hashchange', route);
+    window.addEventListener('DOMContentLoaded', ()=>{ getCourses(); route(); });
+  </script>
+</body>
+</html>
