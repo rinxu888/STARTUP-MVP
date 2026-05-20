@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kido Course — MVP SPA</title>
+  <title>KIDO — Kids Course MVP</title>
   <style>
     :root{
-      --navy:#17324d;
-      --brand:#ff8a65;
-      --brand-2:#ffd9cf;
-      --ink:#15202b;
-      --muted:#5b6b7a;
-      --bg:#f7fafc;
+      --navy:#1f2f46;
+      --brand:#f8dc4f;
+      --brand-dark:#e6c72d;
+      --brand-2:#fff2a8;
+      --cream:#fff7ec;
+      --cream-2:#fffdf6;
+      --pastel-blue:#b9d8ff;
+      --pastel-pink:#ffc4dc;
+      --pastel-green:#bff0c9;
+      --pastel-yellow:#ffe36b;
+      --ink:#151515;
+      --muted:#5b6470;
+      --bg:#fff7ec;
       --card:#ffffff;
-      --stroke:#e5edf5;
+      --stroke:#f0dfbf;
       --ok:#1f9d68;
       --warn:#b45309;
       --danger:#b91c1c;
-      --shadow:0 16px 30px rgba(17,24,39,.08);
-      --radius:18px;
+      --shadow:0 18px 40px rgba(44,35,21,.10);
+      --radius:22px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
@@ -29,24 +36,24 @@
     .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
     :focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
 
-    .navbar{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
-    .navwrap{max-width:1200px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .navbar{position:sticky;top:0;z-index:10;background:#fff;color:var(--ink);border-bottom:1px solid rgba(0,0,0,.06)}
+    .navwrap{max-width:1200px;margin:0 auto;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
     .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#ffb199);display:grid;place-items:center;color:#fff;font-weight:900;box-shadow:0 8px 20px rgba(255,138,101,.35)}
     .nav{display:flex;gap:18px;flex-wrap:wrap}
     .nav a{opacity:.86}
-    .nav a.active,.nav a:hover{opacity:1;text-decoration:underline}
+    .nav a.active,.nav a:hover{opacity:1;color:#000;text-decoration:none}.nav a{font-weight:800}
 
     main{max-width:1200px;margin:26px auto;padding:0 18px}
     footer{max-width:1200px;margin:28px auto;padding:12px 18px;color:var(--muted)}
 
-    .hero{padding:28px;border:1px solid var(--stroke);background:linear-gradient(180deg,#fff,#fff7f4);border-radius:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center}
+    .hero{padding:44px;border:1px solid var(--stroke);background:linear-gradient(135deg,#fff8ea,#fff2df);border-radius:0 0 34px 34px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
     @media (max-width:900px){.hero{grid-template-columns:1fr}}
-    .hero h1{font-size:42px;line-height:1.08;margin:0 0 10px}
+    .hero h1{font-size:48px;line-height:1.08;margin:0 0 12px;font-weight:600}.hero h1 .accent{display:block;color:var(--brand-dark);font-weight:600}
     .hero p{margin:0;color:var(--muted);font-size:18px;max-width:700px}
     .hero-card{background:#fff;border:1px solid var(--stroke);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
     .hero-list{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px}
-    .hero-list li{padding:10px 12px;background:#fff7f4;border:1px solid #ffe2d8;border-radius:999px;font-weight:600;color:#87412d}
+    .hero-list li{padding:10px 12px;background:#fff7d1;border:1px solid #f0da68;border-radius:999px;font-weight:700;color:#4a3b00}
 
     .section-title{font-size:28px;margin:26px 0 14px}
     .controls{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0 22px}
@@ -59,20 +66,20 @@
 
     .actions-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .btn{border:none;border-radius:999px;padding:12px 18px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-    .btn-primary{background:var(--brand);color:#fff}
-    .btn-secondary{background:#eef4f8;color:var(--ink)}
+    .btn-primary{background:var(--brand);color:#191919;border:2px solid var(--brand);box-shadow:0 8px 18px rgba(248,220,79,.35)}
+    .btn-secondary{background:#fff8e2;color:var(--ink);border:2px solid #222}
     .btn-danger{background:#fee2e2;color:#991b1b}
-    .btn-ghost{background:#fff;border:1px solid var(--stroke)}
+    .btn-ghost{background:#fff;border:2px solid #222}
 
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:650px){.grid{grid-template-columns:1fr}}
     .card{overflow:hidden;display:flex;flex-direction:column}
-    .thumb{height:180px;background:linear-gradient(135deg,#ffd8cc,#fff0eb);display:grid;place-items:center;font-size:44px}
+    .thumb{height:180px;background:linear-gradient(135deg,#fff3c4,#fff8ea);display:grid;place-items:center;font-size:50px}
     .pad{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
     .title{font-size:20px;font-weight:900;margin:0}
     .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:14px}
-    .badge{display:inline-flex;padding:4px 10px;border-radius:999px;background:#fff3ef;border:1px solid #ffd8cc;color:#9a4c36;font-size:12px;font-weight:800}
+    .badge{display:inline-flex;padding:4px 10px;border-radius:999px;background:#fff4b7;border:1px solid #f0da68;color:#5d4a00;font-size:12px;font-weight:800}
     .price{font-weight:900;color:var(--navy)}
     .desc{color:#425466;margin:0}
     .grow{flex:1}
@@ -110,17 +117,59 @@
     .success-icon{width:110px;height:110px;margin:0 auto 16px;border-radius:999px;background:#d1fae5;color:var(--ok);display:grid;place-items:center;font-size:52px;font-weight:900}
     .banner{padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
-    .tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#ecfdf5;color:#065f46;font-weight:800;font-size:12px}
+    .tag{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#fff4b7;color:#5d4a00;font-weight:800;font-size:12px}
     .muted{color:var(--muted)}
+
+
+    .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+    @media (max-width:900px){.value-grid{grid-template-columns:1fr}}
+    .value-card{background:#fff;border:1px solid var(--stroke);box-shadow:var(--shadow);border-radius:var(--radius);padding:18px}
+    .value-card h3{margin:0 0 8px;color:var(--navy)}
+    .value-card p{margin:0;color:var(--muted);line-height:1.55}
+    .highlight{border:2px solid var(--brand);position:relative}
+    .highlight::before{content:'Recommended';position:absolute;top:12px;right:12px;background:var(--brand);color:#fff;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900}
+    .quiz{margin-top:28px;background:linear-gradient(135deg,#fff,#fff3c4);border:1px solid var(--stroke);box-shadow:var(--shadow);border-radius:28px;padding:26px}
+    .quiz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width:900px){.quiz-grid{grid-template-columns:1fr}}
+    .quiz-result{margin-top:16px;padding:16px;border-radius:18px;border:1px solid #ffd8cc;background:#fff;color:var(--ink)}
+    .mini-note{font-size:13px;color:var(--muted);margin-top:8px}
+    .trust-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .trust-pill{background:#fff;border:1px solid #f0da68;color:#4a3b00;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}
+
+    .topbar{background:var(--brand);color:#4a3b00;text-align:center;padding:12px 18px;font-weight:700}
+    .logo-text{font-size:34px;letter-spacing:1px;font-weight:1000;line-height:1}
+    .logo-text span:nth-child(1){color:var(--pastel-blue)}
+    .logo-text span:nth-child(2){color:var(--pastel-green)}
+    .logo-text span:nth-child(3){color:var(--pastel-pink)}
+    .logo-text span:nth-child(4){color:var(--pastel-yellow)}
+    .hero-visual{position:relative;min-height:330px;border-radius:30px;background:linear-gradient(135deg,#fff1d9,#ffe8c0);overflow:hidden;display:grid;place-items:center}
+    .hero-visual::before{content:'';position:absolute;right:34px;top:26px;width:120px;height:120px;background-image:radial-gradient(var(--brand-dark) 2px,transparent 2px);background-size:12px 12px;opacity:.75}
+    .hero-visual::after{content:'';position:absolute;left:55px;bottom:62px;width:84px;height:84px;border-radius:50%;background:var(--brand)}
+    .teacher-illustration{position:relative;z-index:1;width:240px;height:250px;border-radius:130px 130px 24px 24px;background:linear-gradient(180deg,#fff,#f3f3f3);box-shadow:0 18px 35px rgba(0,0,0,.10);display:grid;place-items:center;font-size:92px}
+    .teacher-illustration small{position:absolute;bottom:26px;right:-42px;background:#fff;border:2px solid #222;border-radius:18px;padding:10px 12px;font-size:14px;font-weight:900}
+    .image-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 4px}
+    @media(max-width:900px){.image-strip{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.image-strip{grid-template-columns:1fr}}
+    .image-tile{min-height:140px;border-radius:24px;background:linear-gradient(135deg,#fff,#fff0c2);border:1px solid var(--stroke);box-shadow:var(--shadow);display:grid;place-items:center;text-align:center;padding:16px}
+    .image-tile .pic{font-size:48px;margin-bottom:8px}
+    .image-tile strong{display:block}
+    .card:hover{transform:translateY(-4px);box-shadow:0 24px 48px rgba(44,35,21,.14)}
+    .card{transition:.2s ease}
+    .thumb{position:relative;overflow:hidden}
+    .thumb::before{content:'';position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(248,220,79,.55);right:-22px;top:-22px}
+    .thumb span{position:relative;z-index:1}
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
+  <div class="topbar">Welcome to KIDO, a platform for finding and enrolling in children's courses.</div>
   <header class="navbar">
     <div class="navwrap">
-      <div class="brand"><div class="logo">K</div><span>Kido Course</span></div>
+      <div class="brand"><div class="logo-text"><span>K</span><span>I</span><span>D</span><span>O</span></div></div>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#/" id="nav-home" class="active">Home</a>
         <a href="#/about" id="nav-about">About us</a>
+        <a href="#/" data-scroll-target="quiz" id="nav-quiz">Course quiz</a>
         <a href="#/client" id="nav-client">Client dashboard</a>
         <a href="#/admin" id="nav-admin">Admin panel</a>
       </nav>
@@ -131,11 +180,17 @@
     <section id="view-home">
       <div class="hero">
         <div>
-          <h1>Find and book the right course for your child</h1>
-          <p>Kido Course helps parents discover trusted kids courses by age, category, format, city, and price — then book a trial lesson in a few clicks.</p>
+          <h1>Find the best courses for children <span class="accent">near you</span></h1>
+          <p>KIDO helps parents compare trusted kids courses by age, city, price, format and interests — then book a trial lesson in a few clicks.</p>
           <div class="actions-row" style="margin-top:16px">
             <a class="btn btn-primary" href="#courses">Explore courses</a>
-            <a class="btn btn-secondary" href="#/about">How it works</a>
+            <a class="btn btn-secondary" href="#/" data-scroll-target="quiz">Take course quiz</a>
+            <a class="btn btn-ghost" href="#/about">How it works</a>
+          </div>
+          <div class="trust-row">
+            <span class="trust-pill">Real MVP flow</span>
+            <span class="trust-pill">Real teacher contacts</span>
+            <span class="trust-pill">Personal recommendation</span>
           </div>
         </div>
         <div class="hero-card">
@@ -148,6 +203,70 @@
           </ul>
         </div>
       </div>
+
+      <section class="image-strip" aria-label="Popular directions">
+        <div class="image-tile"><div class="pic">💻</div><strong>Coding & Robotics</strong><span class="muted">logic and projects</span></div>
+        <div class="image-tile"><div class="pic">🎨</div><strong>Art & Creativity</strong><span class="muted">drawing and design</span></div>
+        <div class="image-tile"><div class="pic">⚽</div><strong>Sport & Dance</strong><span class="muted">movement and teamwork</span></div>
+        <div class="image-tile"><div class="pic">🌱</div><strong>Soft Skills</strong><span class="muted">confidence and communication</span></div>
+      </section>
+
+      <section class="value-grid" aria-label="MVP value proposition">
+        <article class="value-card">
+          <h3>Problem</h3>
+          <p>Parents do not always know which activity fits their child’s age, interests, city, budget, and learning style.</p>
+        </article>
+        <article class="value-card">
+          <h3>Solution</h3>
+          <p>Kido Course lets users compare courses, filter options, open course details, and book a trial lesson quickly.</p>
+        </article>
+        <article class="value-card">
+          <h3>Improvement</h3>
+          <p>The MVP now includes more courses and a light quiz that recommends the most suitable category for the child.</p>
+        </article>
+      </section>
+      <section id="quiz" class="quiz" aria-label="Course recommendation quiz">
+        <h2 class="section-title" style="margin-top:0">Find a suitable course for your child</h2>
+        <p class="muted">Answer 3 quick questions. The MVP will suggest a course category and show matching options.</p>
+        <form id="quiz-form" class="form">
+          <div class="quiz-grid">
+            <div class="field">
+              <label for="quiz-age">Child age</label>
+              <select id="quiz-age">
+                <option value="6–8">6–8</option>
+                <option value="9–12">9–12</option>
+                <option value="13–16">13–16</option>
+                <option value="3–5">3–5</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quiz-interest">Main interest</label>
+              <select id="quiz-interest">
+                <option value="logic">Logic, computers, robots</option>
+                <option value="creative">Drawing, design, creativity</option>
+                <option value="active">Movement and sport</option>
+                <option value="language">Languages and communication</option>
+                <option value="music">Music and rhythm</option>
+                <option value="confidence">Confidence and emotional skills</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quiz-style">Learning style</label>
+              <select id="quiz-style">
+                <option value="project">Projects and practical tasks</option>
+                <option value="team">Team activities</option>
+                <option value="calm">Calm individual learning</option>
+                <option value="online">Online lessons</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions-row" style="margin-top:14px">
+            <button class="btn btn-primary" type="submit">Get recommendation</button>
+            <button class="btn btn-secondary" type="button" id="quiz-reset">Reset quiz</button>
+          </div>
+        </form>
+        <div id="quiz-result" class="quiz-result hidden"></div>
+      </section>
 
       <h2 class="section-title" id="courses">Course search</h2>
       <div class="controls" role="region" aria-label="Course search filters">
@@ -174,6 +293,9 @@
             <option value="Sports">Sports</option>
             <option value="Language">Language</option>
             <option value="Music">Music</option>
+            <option value="Dance">Dance</option>
+            <option value="STEM">STEM</option>
+            <option value="Psychology">Psychology</option>
           </select>
         </div>
         <div class="control">
@@ -183,6 +305,7 @@
             <option value="Almaty">Almaty</option>
             <option value="Astana">Astana</option>
             <option value="Shymkent">Shymkent</option>
+            <option value="Online">Online</option>
           </select>
         </div>
         <div class="control">
@@ -206,6 +329,9 @@
       </div>
 
       <section id="course-grid" class="grid" aria-live="polite"></section>
+
+
+
     </section>
 
     <section id="view-course" class="hidden">
@@ -237,7 +363,7 @@
     <section id="view-book" class="hidden">
       <div class="panel" style="max-width:800px;margin:0 auto">
         <h1 style="margin-top:0">Book a trial lesson</h1>
-        <p class="muted">Parent fills the form, the platform stores the booking, and the request appears in both dashboards.</p>
+        <p class="muted">Parent fills the form, the platform stores the booking, and the teacher/provider can receive the request by real email after EmailJS setup. Before setup, the MVP opens WhatsApp/email draft as a safe demo fallback.</p>
         <div id="booking-summary" class="banner"></div>
         <form id="booking-form" class="form" novalidate>
           <div id="form-alert" class="alert hidden">Please fill all required fields correctly.</div>
@@ -320,7 +446,7 @@
         <div class="stat"><div class="k">Total bookings</div><div class="v" id="client-total">0</div></div>
         <div class="stat"><div class="k">Pending</div><div class="v" id="client-pending">0</div></div>
         <div class="stat"><div class="k">Latest course</div><div class="v" id="client-latest">—</div></div>
-        <div class="stat"><div class="k">Contact status</div><div class="v">Demo mode</div></div>
+        <div class="stat"><div class="k">Contact status</div><div class="v">MVP active</div></div>
       </div>
       <h2 class="section-title">My trial requests</h2>
       <div class="table-wrap panel">
@@ -338,7 +464,7 @@
       <div class="banner">
         <div>
           <strong>Admin panel</strong>
-          <div class="muted">Simple MVP admin: see courses, add a demo course, manage requests.</div>
+          <div class="muted">Simple MVP admin: see courses, add a course, manage requests.</div>
         </div>
         <button id="seed-data" class="btn btn-secondary" type="button">Reset demo data</button>
       </div>
@@ -355,11 +481,11 @@
           <form id="admin-course-form" class="form">
             <div class="two-col">
               <div class="field"><label for="newTitle">Course title</label><input id="newTitle" /></div>
-              <div class="field"><label for="newCategory">Category</label><select id="newCategory"><option>Coding</option><option>Art</option><option>Sports</option><option>Language</option><option>Music</option></select></div>
+              <div class="field"><label for="newCategory">Category</label><select id="newCategory"><option>Coding</option><option>Art</option><option>Sports</option><option>Language</option><option>Music</option><option>Dance</option><option>STEM</option><option>Psychology</option></select></div>
             </div>
             <div class="two-col">
               <div class="field"><label for="newAge">Age group</label><select id="newAge"><option>3–5</option><option>6–8</option><option>9–12</option><option>13–16</option></select></div>
-              <div class="field"><label for="newCity">City</label><select id="newCity"><option>Almaty</option><option>Astana</option><option>Shymkent</option></select></div>
+              <div class="field"><label for="newCity">City</label><select id="newCity"><option>Almaty</option><option>Astana</option><option>Shymkent</option><option>Online</option></select></div>
             </div>
             <div class="two-col">
               <div class="field"><label for="newFormat">Format</label><select id="newFormat"><option>Offline</option><option>Online</option></select></div>
@@ -374,7 +500,7 @@
           <h2 style="margin-top:0">Latest bookings</h2>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Course</th><th>Parent</th><th>Phone</th><th>Preferred date</th></tr></thead>
+              <thead><tr><th>Course</th><th>Parent</th><th>Phone</th><th>Preferred date</th><th>Notification</th></tr></thead>
               <tbody id="admin-bookings"></tbody>
             </table>
           </div>
@@ -417,22 +543,34 @@
     </section>
   </main>
 
-  <footer>© <span id="year"></span> Kido Course — single-file MVP prototype</footer>
+  <footer>© <span id="year"></span> Kido Course — single-file Real MVP</footer>
 
   <script>
     const COURSES_KEY = 'kido_courses_v1';
     const BOOKINGS_KEY = 'kido_bookings_v1';
+
+    // REAL NOTIFICATION SETUP:
+    // 1) Create a free EmailJS account.
+    // 2) Add your email service and template.
+    // 3) Replace these 3 values. Then the teacher will receive a real email automatically.
+    const EMAILJS_CONFIG = {
+      publicKey: 'PASTE_EMAILJS_PUBLIC_KEY_HERE',
+      serviceId: 'PASTE_EMAILJS_SERVICE_ID_HERE',
+      templateId: 'PASTE_EMAILJS_TEMPLATE_ID_HERE'
+    };
+    const emailJsReady = EMAILJS_CONFIG.publicKey && !EMAILJS_CONFIG.publicKey.includes('PASTE_');
+    if (window.emailjs && emailJsReady) emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
     const $ = (s)=>document.querySelector(s);
     const $$ = (s)=>document.querySelectorAll(s);
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const seedCourses = [
-      {id:'c1',title:'Junior Coding Lab',category:'Coding',age:'6–8',city:'Almaty',format:'Offline',price:40000,rating:4.9,popularity:96,emoji:'💻',desc:'Interactive coding classes with games, logic exercises, and beginner-friendly programming tasks.',features:['Small groups','Hands-on tasks','Trial lesson available']},
-      {id:'c2',title:'Creative Art Studio',category:'Art',age:'6–8',city:'Almaty',format:'Offline',price:25000,rating:4.7,popularity:84,emoji:'🎨',desc:'Drawing, painting, and crafts that help children build creativity and confidence.',features:['All materials included','Portfolio work','Friendly mentor']},
-      {id:'c3',title:'Kids Football Start',category:'Sports',age:'9–12',city:'Astana',format:'Offline',price:30000,rating:4.8,popularity:89,emoji:'⚽',desc:'Beginner football training focused on teamwork, endurance, and discipline.',features:['Certified coach','Group training','Weekend sessions']},
-      {id:'c4',title:'English Fun Club',category:'Language',age:'6–8',city:'Shymkent',format:'Online',price:22000,rating:4.6,popularity:80,emoji:'📚',desc:'Speaking-based English lessons with songs, stories, and vocabulary games.',features:['Online access','Weekly homework','Parent feedback']},
-      {id:'c5',title:'Piano Discovery',category:'Music',age:'9–12',city:'Almaty',format:'Offline',price:35000,rating:4.8,popularity:78,emoji:'🎹',desc:'Introductory piano course for children who want to learn rhythm and melody basics.',features:['Individual attention','Performance day','Instrument practice']},
-      {id:'c6',title:'Robotics Kids Hub',category:'Coding',age:'9–12',city:'Astana',format:'Offline',price:45000,rating:5.0,popularity:98,emoji:'🤖',desc:'Robotics and engineering basics with problem-solving challenges and mini projects.',features:['Project-based learning','Robot kits','Showcase event']}
+      {id:'eng1',title:'Real English Tutor — Trial Lesson',category:'Language',age:'6–8',city:'Online',format:'Online',price:6000,rating:5.0,popularity:99,emoji:'🇬🇧',teacherName:'English Tutor',teacherEmail:'english.teacher@example.com',teacherPhone:'+77000000001',website:'',desc:'Real English tutoring option where parents can leave a request for a trial lesson. Replace the placeholder email and phone with the teacher’s real contacts.',features:['Real teacher contact','Trial lesson request','Parent request sent to teacher']},
+      {id:'eng2',title:'English Speaking Practice for Teens',category:'Language',age:'13–16',city:'Online',format:'Online',price:7000,rating:4.9,popularity:96,emoji:'🗣️',teacherName:'English Tutor',teacherEmail:'english.teacher@example.com',teacherPhone:'+77000000001',website:'',desc:'Speaking-focused English lessons for teenagers with real enrollment request flow.',features:['Speaking practice','Online lessons','Teacher notification']},
+      {id:'ita1',title:'Real Italian Tutor — Beginner Course',category:'Language',age:'9–12',city:'Online',format:'Online',price:7000,rating:5.0,popularity:98,emoji:'🇮🇹',teacherName:'Italian Tutor',teacherEmail:'italian.teacher@example.com',teacherPhone:'+77000000002',website:'',desc:'Real Italian tutoring option for beginners. Parents can submit a request and the teacher receives the booking details after notification setup.',features:['Real teacher contact','Beginner Italian','Trial lesson request']},
+      {id:'ita2',title:'Italian for Teens — A1 Starter',category:'Language',age:'13–16',city:'Online',format:'Online',price:8000,rating:4.9,popularity:94,emoji:'🍝',teacherName:'Italian Tutor',teacherEmail:'italian.teacher@example.com',teacherPhone:'+77000000002',website:'',desc:'Online Italian lessons for teens who want to start from zero and book a real trial lesson.',features:['A1 level','Online format','Teacher notification']},
+      {id:'school1',title:'Almaty Creative School — Art Trial',category:'Art',age:'6–8',city:'Almaty',format:'Offline',price:25000,rating:4.7,popularity:84,emoji:'🎨',teacherName:'School Manager',teacherEmail:'school.manager@example.com',teacherPhone:'+77000000003',website:'',desc:'Partner school placeholder for offline art lessons. Replace contacts with the real school representative.',features:['Offline trial','School contact','Parent request']},
+      {id:'school2',title:'Kids Coding School — Intro Class',category:'Coding',age:'9–12',city:'Almaty',format:'Offline',price:40000,rating:4.8,popularity:91,emoji:'💻',teacherName:'Coding School Manager',teacherEmail:'coding.school@example.com',teacherPhone:'+77000000004',website:'',desc:'Partner school placeholder for coding classes. Replace contact fields with the real school email and phone.',features:['Intro class','Project-based learning','School notification']}
     ];
 
     function getCourses(){
@@ -504,9 +642,9 @@
       if(!filtered.length){ grid.innerHTML = '<div class="empty">No courses found for these filters.</div>'; return; }
       filtered.forEach(c => {
         const el = document.createElement('article');
-        el.className = 'card';
+        el.className = 'card' + (window.lastRecommendedCategory === c.category ? ' highlight' : '');
         el.innerHTML = `
-          <div class="thumb">${c.emoji || '⭐'}</div>
+          <div class="thumb"><span>${c.emoji || '⭐'}</span></div>
           <div class="pad">
             <div class="meta"><span class="badge">${c.category}</span><span>Age ${c.age}</span><span>${c.format}</span></div>
             <h3 class="title">${c.title}</h3>
@@ -540,11 +678,44 @@
         <div class="control"><label>City</label><input value="${c.city}" disabled></div>
         <div class="control"><label>Format</label><input value="${c.format}" disabled></div>
         <div class="control"><label>Monthly price</label><input value="${money(c.price)}" disabled></div>
+        <div class="control"><label>Teacher / Provider</label><input value="${c.teacherName || 'Course provider'}" disabled></div>
       `;
     }
 
     function setErr(id,msg){ const box = document.getElementById('err-'+id); if(box) box.textContent = msg || ''; }
     function validEmail(v){ const s=(v||'').trim(); return s.includes('@') && s.lastIndexOf('.') > s.indexOf('@') + 1; }
+
+    function notificationMessage(booking, course){
+      return `New KIDO booking request%0A%0ACourse: ${course.title}%0ATeacher/provider: ${course.teacherName || 'Course provider'}%0AParent: ${booking.parentName}%0AChild: ${booking.childName}, ${booking.childAge}%0APhone: ${booking.phone}%0AEmail: ${booking.email}%0APreferred date: ${booking.trialDate}%0AComment: ${booking.notes}`;
+    }
+
+    async function notifyTeacher(booking, course){
+      const templateParams = {
+        to_email: course.teacherEmail,
+        teacher_name: course.teacherName || 'Teacher',
+        course_title: course.title,
+        parent_name: booking.parentName,
+        child_name: booking.childName,
+        child_age: booking.childAge,
+        parent_phone: booking.phone,
+        parent_email: booking.email,
+        trial_date: booking.trialDate,
+        notes: booking.notes
+      };
+      if(window.emailjs && emailJsReady){
+        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams);
+        return 'Email sent to teacher';
+      }
+      // Fallback for demo before EmailJS keys are added: opens the user's email client or WhatsApp.
+      const subject = encodeURIComponent('New KIDO booking request: ' + course.title);
+      const body = notificationMessage(booking, course).replaceAll('%0A', '\n');
+      const mailto = `mailto:${course.teacherEmail}?subject=${subject}&body=${encodeURIComponent(body)}`;
+      const digits = (course.teacherPhone || '').replace(/\D/g,'');
+      const whatsapp = digits ? `https://wa.me/${digits}?text=${notificationMessage(booking, course)}` : mailto;
+      window.open(whatsapp, '_blank');
+      window.location.href = mailto;
+      return 'Notification draft opened';
+    }
 
     function renderBooking(){
       ['parentName','childName','childAge','phone','email','trialDate','notes'].forEach(id => { setErr(id,''); });
@@ -552,9 +723,9 @@
       const id = qs().get('id');
       const c = courseById(id) || getCourses()[0];
       if(!c){ location.hash = '#/404'; return; }
-      $('#booking-summary').innerHTML = `<div><strong>${c.title}</strong><div class="muted">${c.category} · Age ${c.age} · ${c.city}</div></div><span class="tag">${money(c.price)}</span>`;
+      $('#booking-summary').innerHTML = `<div><strong>${c.title}</strong><div class="muted">${c.category} · Age ${c.age} · ${c.city} · Teacher: ${c.teacherName || 'Course provider'}</div></div><span class="tag">${money(c.price)}</span>`;
       const form = $('#booking-form');
-      form.onsubmit = (e)=>{
+      form.onsubmit = async (e)=>{
         e.preventDefault();
         let ok = true;
         const parentName = $('#parentName').value.trim();
@@ -574,15 +745,26 @@
         $('#form-alert').classList.toggle('hidden', ok);
         if(!ok) return;
         const bookings = getBookings();
-        bookings.unshift({
+        const booking = {
           id: 'b' + Date.now(),
           courseId: c.id,
           courseTitle: c.title,
+          teacherName: c.teacherName || 'Course provider',
+          teacherEmail: c.teacherEmail || '',
+          teacherPhone: c.teacherPhone || '',
           parentName, childName, childAge, phone, email, trialDate, notes,
-          status:'Pending', createdAt: new Date().toISOString().slice(0,10)
-        });
+          status:'Pending', notificationStatus:'Not sent yet', createdAt: new Date().toISOString().slice(0,10)
+        };
+        try{
+          booking.notificationStatus = await notifyTeacher(booking, c);
+        }catch(err){
+          booking.notificationStatus = 'Email sending failed — check EmailJS setup';
+          console.error(err);
+          alert('Booking saved, but email notification failed. Check EmailJS configuration.');
+        }
+        bookings.unshift(booking);
         setBookings(bookings);
-        location.hash = '#/success?course=' + encodeURIComponent(c.title) + '&parent=' + encodeURIComponent(parentName);
+        location.hash = '#/success?course=' + encodeURIComponent(c.title) + '&parent=' + encodeURIComponent(parentName) + '&notify=' + encodeURIComponent(booking.notificationStatus);
       };
     }
 
@@ -590,7 +772,8 @@
       const params = qs();
       const course = params.get('course') || 'course';
       const parent = params.get('parent') || 'Parent';
-      $('#success-text').textContent = `${parent}, your request for “${course}” has been submitted successfully. In this MVP, the booking is now visible in both the client dashboard and the admin panel.`;
+      const notify = params.get('notify') || 'Saved in MVP';
+      $('#success-text').textContent = `${parent}, your request for “${course}” has been submitted successfully. Status: ${notify}. The booking is also visible in the client dashboard and admin panel.`;
     }
 
     function renderClient(){
@@ -629,10 +812,79 @@
       $('#admin-bookings-empty').classList.toggle('hidden', bookings.length > 0);
       bookings.slice(0,8).forEach(b => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${b.courseTitle}</td><td>${b.parentName}</td><td>${b.phone}</td><td>${b.trialDate}</td>`;
+        tr.innerHTML = `<td>${b.courseTitle}</td><td>${b.parentName}</td><td>${b.phone}</td><td>${b.trialDate}</td><td>${b.notificationStatus || 'Saved'}</td>`;
         bookingBody.appendChild(tr);
       });
     }
+
+
+    window.lastRecommendedCategory = null;
+
+    function recommendCategory(interest, style){
+      const scores = {Coding:0, Art:0, Sports:0, Language:0, Music:0, Dance:0, STEM:0, Psychology:0};
+      if(interest === 'logic'){ scores.Coding += 3; scores.STEM += 3; }
+      if(interest === 'creative'){ scores.Art += 4; scores.Music += 1; }
+      if(interest === 'active'){ scores.Sports += 3; scores.Dance += 3; }
+      if(interest === 'language'){ scores.Language += 4; }
+      if(interest === 'music'){ scores.Music += 4; scores.Dance += 1; }
+      if(interest === 'confidence'){ scores.Psychology += 4; scores.Language += 1; scores.Dance += 1; }
+      if(style === 'project'){ scores.Coding += 2; scores.STEM += 2; scores.Art += 1; }
+      if(style === 'team'){ scores.Sports += 2; scores.Dance += 2; scores.Psychology += 1; }
+      if(style === 'calm'){ scores.Art += 1; scores.Music += 2; scores.Psychology += 1; scores.STEM += 1; }
+      if(style === 'online'){ scores.Language += 1; scores.Coding += 1; scores.Psychology += 1; }
+      return Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+    }
+
+    function renderQuizResult(category, age){
+      window.lastRecommendedCategory = category;
+      const matching = getCourses()
+        .filter(c => c.category === category && (c.age === age || c.format === 'Online'))
+        .sort((a,b)=>b.rating-a.rating || b.popularity-a.popularity)
+        .slice(0,3);
+      const fallback = getCourses().filter(c => c.category === category).slice(0,3);
+      const list = (matching.length ? matching : fallback);
+      const result = $('#quiz-result');
+      result.classList.remove('hidden');
+      result.innerHTML = `
+        <strong>Recommended category: ${category}</strong>
+        <p class="muted" style="margin:8px 0 12px">Based on the answers, this direction should fit the child’s interests and learning style.</p>
+        <div class="grid">
+          ${list.map(c => `
+            <article class="card">
+              <div class="pad">
+                <div class="meta"><span class="badge">${c.category}</span><span>Age ${c.age}</span><span>${c.format}</span></div>
+                <h3 class="title">${c.emoji || '⭐'} ${c.title}</h3>
+                <p class="desc">${c.desc}</p>
+                <div class="meta"><span>📍 ${c.city}</span><span>⭐ ${c.rating}</span></div>
+                <div class="actions-row" style="margin-top:8px">
+                  <a class="btn btn-primary" href="#/course?id=${c.id}">View course</a>
+                </div>
+              </div>
+            </article>`).join('')}
+        </div>
+        <p class="mini-note">MVP logic: recommendation is based on interest + learning style + age availability.</p>`;
+      $('#filter-category').value = category;
+      $('#filter-age').value = age.replace('–','-');
+      renderHome();
+      document.getElementById('courses').scrollIntoView({behavior:'smooth'});
+    }
+
+    $('#quiz-form')?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const age = $('#quiz-age').value;
+      const interest = $('#quiz-interest').value;
+      const style = $('#quiz-style').value;
+      const category = recommendCategory(interest, style);
+      renderQuizResult(category, age);
+    });
+
+    $('#quiz-reset')?.addEventListener('click', ()=>{
+      window.lastRecommendedCategory = null;
+      $('#quiz-result').classList.add('hidden');
+      $('#filter-category').value = 'all';
+      $('#filter-age').value = 'all';
+      renderHome();
+    });
 
     $('#admin-course-form')?.addEventListener('submit', (e)=>{
       e.preventDefault();
@@ -645,7 +897,7 @@
       const desc = $('#newDesc').value.trim();
       if(!title || !price || !desc){ alert('Fill course title, price, and description.'); return; }
       const courses = getCourses();
-      const emojiMap = {Coding:'💻',Art:'🎨',Sports:'⚽',Language:'📚',Music:'🎹'};
+      const emojiMap = {Coding:'💻',Art:'🎨',Sports:'⚽',Language:'📚',Music:'🎹',Dance:'💃',STEM:'🧩',Psychology:'🌱'};
       courses.unshift({
         id:'c' + Date.now(), title, category, age, city, format, price,
         rating:4.7, popularity:70, emoji:emojiMap[category] || '⭐', desc,
@@ -662,6 +914,14 @@
       document.getElementById(id)?.addEventListener('change', renderHome);
     });
     document.getElementById('seed-data')?.addEventListener('click', ()=>{ resetDemoData(); renderAdmin(); if(location.hash === '#/') renderHome(); });
+
+    document.addEventListener('click', (e)=>{
+      const link = e.target.closest('[data-scroll-target]');
+      if(!link) return;
+      e.preventDefault();
+      if(location.hash !== '#/') location.hash = '#/';
+      setTimeout(()=>document.getElementById(link.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth'}), 50);
+    });
 
     window.addEventListener('hashchange', route);
     window.addEventListener('DOMContentLoaded', ()=>{ getCourses(); route(); });
